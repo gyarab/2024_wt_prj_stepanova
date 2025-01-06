@@ -17,4 +17,4 @@ Po vybrání kuchyně se otevře stránka se seznamem odpovídajících jídel d
 
 ## Wireframe
 
-![Wireframe]
+![Wireframe](./wireframe.png)
