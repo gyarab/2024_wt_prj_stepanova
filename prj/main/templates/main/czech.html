@@ -1,0 +1,79 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Czech cuisine</h1>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="filter1" class="form-label">Filter 1</label>
+                <select id="filter1" class="form-select">
+                    <option selected>Choose an option...</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="filter2" class="form-label">Filter 2</label>
+                <select id="filter2" class="form-select">
+                    <option selected>Choose an option...</option>
+                    <option value="A">Option A</option>
+                    <option value="B">Option B</option>
+                    <option value="C">Option C</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://placehold.co/600x400" alt="Pasta spaghetti" style="max-width:100%;height: 250px;">
+                  <div class="card-body">
+                    <h4 class="card-title">Meal1</h4>
+                    <p>★★★★★</p>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. At cumque voluptatem pariatur voluptas placeat quasi quis sequi iusto, earum veritatis sunt, doloribus officia minus. Facilis consequatur explicabo reprehenderit a eligendi.
+                        <br>
+                        <br>
+                        <br>
+                        <a href="./details"><button type="button" class="btn btn-outline-primary btn-sm" onclick=""> More</button></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="col-md-4">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://placehold.co/600x400" alt="Guanciale" style="max-width:100%;height: 250px;">
+                  <div class="card-body">
+                    <h4 class="card-title">Meal2</h4>
+                    <p>★★★★</p>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. At cumque voluptatem pariatur voluptas placeat quasi quis sequi iusto, earum veritatis sunt, doloribus officia minus. Facilis consequatur explicabo reprehenderit a eligendi.
+                        <br>
+                        <br>
+                        <br>
+                        <a href="./details"><button type="button" class="btn btn-outline-primary btn-sm" onclick=""> More</button></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="col-md-4">
+                <div class="card" style="width: 100%;">
+                  <img class="card-img-top" src="https://placehold.co/600x400" alt="Pecorino romano" style="max-width:100%;height: 250px;">
+                  <div class="card-body">
+                    <h4 class="card-title">Meal3</h4>
+                    <p>★★★</p>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. At cumque voluptatem pariatur voluptas placeat quasi quis sequi iusto, earum veritatis sunt, doloribus officia minus. Facilis consequatur explicabo reprehenderit a eligendi.
+                        <br>
+                        <br>
+                        <br>
+                        <a href="./details"><button type="button" class="btn btn-outline-primary btn-sm" onclick=""> More</button></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+    </div>
+{% endblock %}
