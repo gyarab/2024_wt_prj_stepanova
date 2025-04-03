@@ -1,0 +1,76 @@
+- model: main.recipe
+  pk: 4
+  fields:
+    name: "Pasta Primavera"
+    difficulty: 2
+    calories: 450
+    nutrition_table:
+      protein: "15g"
+      carbs: "70g"
+      fat: "12g"
+    ingredients:
+      - "spaghetti"
+      - "zucchini"
+      - "bell peppers"
+      - "cherry tomatoes"
+      - "garlic"
+      - "olive oil"
+      - "basil"
+      - "vegan parmesan"
+    instructions: "Boil pasta. Sauté garlic and vegetables in olive oil. Toss pasta with veggies and garnish with fresh basil and vegan parmesan."
+    image: "recipes/vegan_pasta_primavera.jpg"
+    cuisine: 1
+    categories:
+      - 2
+
+- model: main.recipe
+  pk: 5
+  fields:
+    name: "Czech Chicken Salad"
+    difficulty: 1
+    calories: 350
+    nutrition_table:
+      protein: "30g"
+      carbs: "20g"
+      fat: "15g"
+    ingredients:
+      - "chicken breast"
+      - "lettuce"
+      - "cucumber"
+      - "tomato"
+      - "olive oil"
+      - "lemon"
+      - "herbs"
+    instructions: "Grill chicken breast. Chop vegetables and combine with grilled chicken. Drizzle with olive oil and lemon juice, season with herbs."
+    image: "recipes/czech_chicken_salad.jpg"
+    cuisine: 2
+    categories:
+      - 1
+
+- model: main.recipe
+  pk: 6
+  fields:
+    name: "Ratatouille"
+    difficulty: 3
+    calories: 500
+    nutrition_table:
+      protein: "10g"
+      carbs: "60g"
+      fat: "20g"
+    ingredients:
+      - "eggplant"
+      - "zucchini"
+      - "bell peppers"
+      - "tomato"
+      - "onion"
+      - "garlic"
+      - "olive oil"
+      - "herbs"
+      - "tomato paste"
+    instructions: "Sauté onion and garlic in olive oil. Add chopped vegetables and tomato paste. Simmer until vegetables are tender. Serve with fresh herbs."
+    image: "recipes/ratatouille.jpg"
+    cuisine: 3
+    categories:
+      - 1
+      - 2
+      - 3

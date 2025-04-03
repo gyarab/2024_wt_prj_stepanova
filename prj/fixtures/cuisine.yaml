@@ -1,0 +1,14 @@
+- model: main.cuisine
+  pk: 1
+  fields:
+    name: "Italian"
+
+- model: main.cuisine
+  pk: 2
+  fields:
+    name: "Czech"
+
+- model: main.cuisine
+  pk: 3
+  fields:
+    name: "French"

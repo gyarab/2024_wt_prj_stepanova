@@ -1,0 +1,14 @@
+- model: main.category
+  pk: 1
+  fields:
+    name: "Diet"
+
+- model: main.category
+  pk: 2
+  fields:
+    name: "Vegan"
+
+- model: main.category
+  pk: 3
+  fields:
+    name: "Vegetarian"

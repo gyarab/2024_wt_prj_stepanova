@@ -1,13 +1,10 @@
 from django.contrib import admin
-from .models import Recipe
-from .models import Cuisine
+from .models import Cuisine, Recipe, Category
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "difficulty", "calories"]
-
-class CuisineAdmin(admin.ModelAdmin):
-    list_display = ["id", "name"]
-
-# Register your models here.
+    list_display = ('name', 'difficulty_stars', 'calories', 'cuisine')
+    readonly_fields = ('difficulty_stars',)
+    
+admin.site.register(Cuisine)
+admin.site.register(Category)
 admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Cuisine, CuisineAdmin)
