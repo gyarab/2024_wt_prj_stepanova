@@ -14,15 +14,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
-from django.views.generic import TemplateView
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='main/homepage.html')),
-    path('czech', TemplateView.as_view(template_name='main/czech.html')),
-    path('italian', TemplateView.as_view(template_name='main/italian.html')),
-    path('french', TemplateView.as_view(template_name='main/french.html')),
-    path('details', TemplateView.as_view(template_name='main/details.html')),
+    path('', views.homepage, name='homepage'),
+    path('search/', views.search_recipes, name='search'),
+    path('czech/', views.cuisine_recipes, {'cuisine_name': 'Czech'}, name='czech'),
+    path('italian/', views.cuisine_recipes, {'cuisine_name': 'Italian'}, name='italian'),
+    path('french/', views.cuisine_recipes, {'cuisine_name': 'French'}, name='french'),
+    path('recipe/<int:recipe_id>/', views.recipe_detail, name='recipe_detail'),
 ]
+
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

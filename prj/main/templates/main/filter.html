@@ -1,20 +1,47 @@
 <div class="row mt-3">
     <div class="col-md-6">
-        <label for="filter1" class="form-label">Filter 1</label>
-        <select id="filter1" class="form-select">
-            <option selected>Choose an option...</option>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
+        <label for="category-filter" class="form-label">Filter by Category</label>
+        <select id="category-filter" class="form-select" onchange="applyFilters()">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
         </select>
     </div>
     <div class="col-md-6">
-        <label for="filter2" class="form-label">Filter 2</label>
-        <select id="filter2" class="form-select">
-            <option selected>Choose an option...</option>
-            <option value="A">Option A</option>
-            <option value="B">Option B</option>
-            <option value="C">Option C</option>
+        <label for="difficulty-filter" class="form-label">Filter by Difficulty</label>
+        <select id="difficulty-filter" class="form-select" onchange="applyFilters()">
+            <option value="">All Difficulties</option>
+            {% for difficulty_value, difficulty_display in difficulty_choices %}
+                <option value="{{ difficulty_value }}" {% if selected_difficulty == difficulty_value|stringformat:"s" %}selected{% endif %}>
+                    {{ difficulty_display }}
+                </option>
+            {% endfor %}
         </select>
     </div>
 </div>
+
+<script>
+function applyFilters() {
+    const category = document.getElementById('category-filter').value;
+    const difficulty = document.getElementById('difficulty-filter').value;
+    
+    const url = new URL(window.location);
+    
+    if (category) {
+        url.searchParams.set('category', category);
+    } else {
+        url.searchParams.delete('category');
+    }
+    
+    if (difficulty) {
+        url.searchParams.set('difficulty', difficulty);
+    } else {
+        url.searchParams.delete('difficulty');
+    }
+    
+    window.location.href = url.toString();
+}
+</script>

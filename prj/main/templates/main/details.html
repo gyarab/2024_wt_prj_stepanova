@@ -2,61 +2,74 @@
 
 {% block content %}
     <div class="container">
-        <h1>Meal</h1>
+        <h1>{{ recipe.name }}</h1>
         <div class="container mt-4">
             <div class="row">
-
                 <div class="col-md-6 p-4 border">
-                    <img class="card-img-top" src="https://placehold.co/600x400" alt="Pasta spaghetti" style="max-width:100%;height: 250px;">
+                    {% if recipe.image %}
+                        <img class="card-img-top" src="{{ recipe.image.url }}" alt="{{ recipe.name }}" style="max-width:100%;height: 300px;object-fit:cover;">
+                    {% else %}
+                        <img class="card-img-top" src="https://placehold.co/600x400/cccccc/666666?text=No+Image" alt="{{ recipe.name }}" style="max-width:100%;height: 300px;">
+                    {% endif %}
                 </div>
 
                 <div class="col-md-6 p-4 border">
-                    <p>★★★★★</p>
+                    <p><strong>Difficulty:</strong> {{ recipe.difficulty_stars }}</p>
+                    <p><strong>Cuisine:</strong> {{ recipe.cuisine.name }}</p>
+                    <p><strong>Categories:</strong> 
+                        {% for category in recipe.categories.all %}
+                            <span class="badge bg-secondary">{{ category.name }}</span>
+                        {% endfor %}
+                    </p>
 
-                    <h2>Nutrients table</h2>
-                    <ul>
-                        <li>cal</li>
-                        <li>protein</li>
-                        <li>fiber</li>
-                        <li>carbohydrate</li>
-                        <li>fat</li>
-                    </ul>
+                    <h3>Nutrition Information</h3>
+                    <div class="nutrition-table">
+                        <p><strong>Calories:</strong> {{ recipe.calories }}</p>
+                        {% if recipe.nutrition_table.protein %}
+                            <p><strong>Protein:</strong> {{ recipe.nutrition_table.protein }}</p>
+                        {% endif %}
+                        {% if recipe.nutrition_table.carbs %}
+                            <p><strong>Carbohydrates:</strong> {{ recipe.nutrition_table.carbs }}</p>
+                        {% endif %}
+                        {% if recipe.nutrition_table.fat %}
+                            <p><strong>Fat:</strong> {{ recipe.nutrition_table.fat }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12 p-4 border">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque id iusto reiciendis voluptatibus est eligendi maxime, ex nobis deleniti recusandae itaque velit modi earum fugit tenetur esse debitis veniam mollitia!</p>
+                    <h3>Description</h3>
+                    <p>{{ recipe.instructions|linebreaks }}</p>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12 p-4 border">
-                    <h2>Ingredients</h2>
+                    <h3>Ingredients</h3>
                     <ul>
-                        <li>chci</li>
-                        <li>se</li>
-                        <li>uz</li>
-                        <li>konecne</li>
-                        <li>zabit</li>
+                        {% for ingredient in recipe.ingredients %}
+                            <li>{{ ingredient|title }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12 p-4 border">
-                    <h2>Process</h2>
-                    <ul>
-                        <li>1. koupim si provaz</li>
-                        <li>2. zavazu si na nem smycku</li>
-                        <li>3. pripevnim provaz na strop</li>
-                        <li>4. ovinu si ho kolem krku</li>
-                        <li>5. shodim podstavu</li>
-                        <li>6. YEYYY</li>
-                    </ul>
+                    <h3>Instructions</h3>
+                    <div class="instructions">
+                        {{ recipe.instructions|linebreaks }}
+                    </div>
                 </div>
             </div>
 
+            <div class="row mt-3">
+                <div class="col-12">
+                    <a href="{% url 'homepage' %}" class="btn btn-secondary">← Back to Recipes</a>
+                </div>
+            </div>
         </div>           
     </div>
 {% endblock %}
