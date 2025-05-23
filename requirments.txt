@@ -1,3 +1,4 @@
 django
 httpx
 Pillow
+pyyaml
