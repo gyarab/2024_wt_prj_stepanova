@@ -2,26 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Recipes{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo"><a href="{% url 'home' %}">Recipes</a></div>
-        <form method="get" action="{% url 'home' %}" class="searchbar">
-            <input type="text" name="q" placeholder="Search recipes...">
-        </form>
-        <div class="dropdown">
-            <button class="dropbtn">Menu</button>
-            <div class="dropdown-content">
-                <a href="{% url 'home' %}">All cuisines</a>
-                <a href="{% url 'cuisine' 'czech' %}">Czech</a>
-                <a href="{% url 'cuisine' 'italian' %}">Italian</a>
-                <a href="{% url 'cuisine' 'french' %}">French</a>
-                <a href="{% url 'cuisine' 'indian' %}">Indian</a>
-                <a href="{% url 'cuisine' 'chinese' %}">Chinese</a>
-                <a href="{% url 'cuisine' 'japanese' %}">Japanese</a>
+        <div class="logo">
+            <a href="{% url 'home' %}">🍳 Recipes</a>
+        </div>
+        
+        <div class="search-container">
+            <form method="get" action="{% url 'home' %}" class="search-form">
+                <input type="text" name="q" placeholder="Search recipes..." value="{{ request.GET.q }}">
+            </form>
+        </div>
+        
+        <div class="menu">
+            <button class="menu-btn">Menu ▼</button>
+            <div class="dropdown">
+                <a href="{% url 'home' %}">🏠 All Cuisines</a>
+                <a href="{% url 'cuisine' 'czech' %}">🇨🇿 Czech</a>
+                <a href="{% url 'cuisine' 'italian' %}">🇮🇹 Italian</a>
+                <a href="{% url 'cuisine' 'french' %}">🇫🇷 French</a>
+                <a href="{% url 'cuisine' 'indian' %}">🇮🇳 Indian</a>
+                <a href="{% url 'cuisine' 'chinese' %}">🇨🇳 Chinese</a>
+                <a href="{% url 'cuisine' 'japanese' %}">🇯🇵 Japanese</a>
             </div>
         </div>
     </nav>
@@ -29,5 +36,31 @@
     <main>
         {% block content %}{% endblock %}
     </main>
+    
+    <script>
+        document.addEventListener('click', function(event) {
+            const menu = document.querySelector('.menu');
+            const dropdown = document.querySelector('.dropdown');
+            
+            if (!menu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+        
+        const menu = document.querySelector('.menu');
+        const dropdown = document.querySelector('.dropdown');
+        
+        menu.addEventListener('mouseenter', function() {
+            dropdown.style.display = 'block';
+        });
+        
+        menu.addEventListener('mouseleave', function() {
+            setTimeout(() => {
+                if (!dropdown.matches(':hover') && !menu.matches(':hover')) {
+                    dropdown.style.display = 'none';
+                }
+            }, 100);
+        });
+    </script>
 </body>
 </html>

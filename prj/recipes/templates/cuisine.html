@@ -1,52 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ cuisine_name|title }} Cuisine{% endblock %}
+{% block title %}{{ cuisine_name|title }} Cuisine - Recipes{% endblock %}
 
 {% block content %}
-  <h1>{{ cuisine_name|title }} Cuisine</h1>
+<div class="welcome-section">
+    <h1>{{ cuisine_name|title }} Cuisine</h1>
+    <p>Explore authentic {{ cuisine_name|title }} recipes and discover the rich flavors of this amazing culinary tradition.</p>
+</div>
 
-  <div class="filters">
-    <form method="get" class="category-sort">
-      <label>Category:</label>
-      <select name="category" onchange="this.form.submit()">
-        <option value="">All</option>
-        <option value="vegetarian" {% if selected_category == "vegetarian" %}selected{% endif %}>Vegetarian</option>
-        <option value="vegan" {% if selected_category == "vegan" %}selected{% endif %}>Vegan</option>
-        <option value="diet" {% if selected_category == "diet" %}selected{% endif %}>Diet</option>
-        <option value="gluten_free" {% if selected_category == "gluten_free" %}selected{% endif %}>Gluten-Free</option>
-      </select>
+<div class="filters">
+    <form method="get" class="filter-form">
+        <div class="filter-group">
+            <label for="category">Category:</label>
+            <select name="category" id="category" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.name|lower }}" {% if selected_category == category.name|lower %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-      <label>Sort by:</label>
-      <select name="sort" onchange="this.form.submit()">
-        <option value="">None</option>
-        <option value="difficulty_asc" {% if request.GET.sort == "difficulty_asc" %}selected{% endif %}>Difficulty ↑</option>
-        <option value="difficulty_desc" {% if request.GET.sort == "difficulty_desc" %}selected{% endif %}>Difficulty ↓</option>
-        <option value="calories_asc" {% if request.GET.sort == "calories_asc" %}selected{% endif %}>Calories ↑</option>
-        <option value="calories_desc" {% if request.GET.sort == "calories_desc" %}selected{% endif %}>Calories ↓</option>
-      </select>
+        <div class="filter-group">
+            <label for="sort">Sort by:</label>
+            <select name="sort" id="sort" onchange="this.form.submit()">
+                <option value="">Default</option>
+                <option value="difficulty_asc" {% if request.GET.sort == "difficulty_asc" %}selected{% endif %}>Difficulty (Easiest First)</option>
+                <option value="difficulty_desc" {% if request.GET.sort == "difficulty_desc" %}selected{% endif %}>Difficulty (Hardest First)</option>
+                <option value="calories_asc" {% if request.GET.sort == "calories_asc" %}selected{% endif %}>Calories (Lowest First)</option>
+                <option value="calories_desc" {% if request.GET.sort == "calories_desc" %}selected{% endif %}>Calories (Highest First)</option>
+            </select>
+        </div>
     </form>
-  </div>
+</div>
 
-  <div class="recipes-grid">
+<div class="recipes-grid">
     {% for recipe in recipes %}
-      <div class="recipe-card">
-        <a href="{% url 'recipe_detail' recipe.pk %}">
-          {% if recipe.image %}
-            <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
-          {% else %}
-            <img src="{% static 'placeholder.jpg' %}" alt="No image">
-          {% endif %}
-          <h2>{{ recipe.name }}</h2>
-          <p>Calories: {{ recipe.calories }}</p>
-          <p>Difficulty:
-            {% for i in "12345" %}
-              {% if forloop.counter <= recipe.difficulty %}★{% else %}☆{% endif %}
-            {% endfor %}
-          </p>
+        <a href="{% url 'recipe_detail' recipe.pk %}" class="recipe-card">
+            {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-image">
+            {% else %}
+                <div class="recipe-image" style="background: linear-gradient(45deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999; font-size: 1.2rem;">
+                    🍽️ No Image
+                </div>
+            {% endif %}
+            
+            <div class="recipe-content">
+                <h3 class="recipe-title">{{ recipe.name }}</h3>
+                <div class="recipe-info">
+                    <span class="calories">{{ recipe.calories }} cal</span>
+                    <div class="difficulty">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= recipe.difficulty %}
+                                <span class="star">★</span>
+                            {% else %}
+                                <span class="star empty">★</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </a>
-      </div>
     {% empty %}
-      <p>No recipes found.</p>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">
+            <h3>No {{ cuisine_name|title }} recipes found</h3>
+            <p>Try adjusting your filters or check back later for more recipes.</p>
+        </div>
     {% endfor %}
-  </div>
+</div>
 {% endblock %}

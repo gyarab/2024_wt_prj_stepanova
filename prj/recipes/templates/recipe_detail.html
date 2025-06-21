@@ -1,37 +1,116 @@
 {% extends 'base.html' %}
-{% block title %}{{ recipe.name }}{% endblock %}
+{% load static %}
+{% block title %}{{ recipe.name }} - Recipes{% endblock %}
+
 {% block content %}
-  <h1>{{ recipe.name }}</h1>
+<div class="recipe-detail">
+    {% if recipe.image %}
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe-detail-image">
+    {% else %}
+        <div class="recipe-detail-image" style="background: linear-gradient(45deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999; font-size: 2rem;">
+            🍽️ No Image Available
+        </div>
+    {% endif %}
+    
+    <div class="recipe-detail-content">
+        <h1 class="recipe-detail-title">{{ recipe.name }}</h1>
+        
+        <div class="recipe-meta">
+            <div class="meta-item">
+                <span class="calories">{{ recipe.calories }} calories</span>
+            </div>
+            <div class="meta-item">
+                <span>Difficulty: </span>
+                <div class="difficulty">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= recipe.difficulty %}
+                            <span class="star">★</span>
+                        {% else %}
+                            <span class="star empty">★</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="meta-item">
+                <span>Cuisine: <strong>{{ recipe.get_cuisine_display }}</strong></span>
+            </div>
+        </div>
 
-  {% if recipe.image %}
-    <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
-  {% else %}
-    <img src="{% static 'placeholder.jpg' %}" alt="No image">
-  {% endif %}
+        {% if recipe.categories.all %}
+            <div class="meta-item">
+                <span>Categories: </span>
+                {% for category in recipe.categories.all %}
+                    <span class="category-tag">{{ category.name }}</span>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
 
-  <p>Kalorie: {{ recipe.calories }}</p>
-  <p>Obtížnost:
-    {% for i in "12345" %}
-      {% if forloop.counter <= recipe.difficulty %}★{% else %}☆{% endif %}
-    {% endfor %}
-  </p>
+        {% if recipe.proteins or recipe.fats or recipe.carbs %}
+            <div class="nutrition-info">
+                <h3 class="section-title">Nutrition Information</h3>
+                <div class="nutrition-grid">
+                    {% if recipe.proteins %}<div class="nutrition-item"><strong>Protein:</strong> {{ recipe.proteins }}g</div>{% endif %}
+                    {% if recipe.fats %}<div class="nutrition-item"><strong>Fats:</strong> {{ recipe.fats }}g</div>{% endif %}
+                    {% if recipe.carbs %}<div class="nutrition-item"><strong>Carbs:</strong> {{ recipe.carbs }}g</div>{% endif %}
+                </div>
+            </div>
+        {% endif %}
 
-  <h2>Popis jídla</h2>
-  <p>{{ recipe.description }}</p>
+        <h2 class="section-title">Description</h2>
+        <p>{{ recipe.description }}</p>
 
-  <h2>Suroviny</h2>
-  <ul>
-    {% for line in recipe.ingredients.splitlines %}
-      <li>{{ line }}</li>
-    {% endfor %}
-  </ul>
+        <h2 class="section-title">Ingredients</h2>
+        <ul class="ingredients-list">
+            {% for ingredient in recipe.ingredients.all %}
+                <li>{{ ingredient.amount }} {{ ingredient.name }}</li>
+            {% empty %}
+                <li>No ingredients listed</li>
+            {% endfor %}
+        </ul>
 
-  <h2>Postup přípravy</h2>
-  <ol>
-    {% for step in recipe.cooking_process.splitlines %}
-      <li>{{ step }}</li>
-    {% endfor %}
-  </ol>
+        <h2 class="section-title">Instructions</h2>
+        <ol class="instructions-list">
+            {% for step in recipe.instructions|linebreaks %}
+                {% if step.strip %}
+                    <li>{{ step|striptags }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No instructions provided</li>
+            {% endfor %}
+        </ol>
 
-  <a href="{% url 'home' %}">← Zpět na recepty</a>
+        <a href="{% url 'home' %}" class="back-link">← Back to Recipes</a>
+    </div>
+</div>
+
+<style>
+.category-tag {
+    background: #f0f0f0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.nutrition-info {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.nutrition-item {
+    background: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+}
+</style>
 {% endblock %}
