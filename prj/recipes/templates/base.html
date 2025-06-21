@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Recipes{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="{% url 'home' %}">Recipes</a></div>
+        <form method="get" action="{% url 'home' %}" class="searchbar">
+            <input type="text" name="q" placeholder="Search recipes...">
+        </form>
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="{% url 'home' %}">All cuisines</a>
+                <a href="{% url 'cuisine' 'czech' %}">Czech</a>
+                <a href="{% url 'cuisine' 'italian' %}">Italian</a>
+                <a href="{% url 'cuisine' 'french' %}">French</a>
+                <a href="{% url 'cuisine' 'indian' %}">Indian</a>
+                <a href="{% url 'cuisine' 'chinese' %}">Chinese</a>
+                <a href="{% url 'cuisine' 'japanese' %}">Japanese</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

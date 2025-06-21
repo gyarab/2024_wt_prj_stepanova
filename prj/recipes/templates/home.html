@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Recipes{% endblock %}
+
+{% block content %}
+  <h1>Welcome to Recipes</h1>
+
+  <div class="recipes-grid">
+    {% for recipe in recipes %}
+      <div class="recipe-card">
+        <a href="{% url 'recipe_detail' recipe.pk %}">
+          {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
+          {% else %}
+            <img src="{% static 'placeholder.jpg' %}" alt="No image available">
+          {% endif %}
+          <h2>{{ recipe.name }}</h2>
+          <p>Calories: {{ recipe.calories }}</p>
+          <p>Difficulty:
+            {% for i in "12345" %}
+              {% if forloop.counter <= recipe.difficulty %}★{% else %}☆{% endif %}
+            {% endfor %}
+          </p>
+        </a>
+      </div>
+    {% empty %}
+      <p>No recipes found.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
