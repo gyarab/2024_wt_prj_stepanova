@@ -25,7 +25,7 @@ class Recipe(models.Model):
     carbs = models.FloatField(null=True, blank=True)    
     difficulty = models.PositiveSmallIntegerField()  
     description = models.TextField()
-    instructions = models.TextField(help_text="Postup vaření")
+    instructions = models.TextField()
     image = models.ImageField(upload_to='recipes/', blank=True, null=True)
 
     def __str__(self):

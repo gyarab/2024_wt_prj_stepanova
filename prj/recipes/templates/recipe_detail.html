@@ -70,9 +70,9 @@
 
         <h2 class="section-title">Instructions</h2>
         <ol class="instructions-list">
-            {% for step in recipe.instructions|linebreaks %}
-                {% if step.strip %}
-                    <li>{{ step|striptags }}</li>
+            {% for step in recipe.instructions.splitlines %}
+                {% if step %}
+                    <li>{{ step }}</li>
                 {% endif %}
             {% empty %}
                 <li>No instructions provided</li>
